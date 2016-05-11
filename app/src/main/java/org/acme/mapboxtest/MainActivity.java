@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
         mMapView = (MapView) findViewById(R.id.mapview);
         mMapView.onCreate(savedInstanceState);
 
-        mMapView.setStyleUrl(Style.EMERALD);
+        mMapView.setStyleUrl(Style.getDarkStyleUrl(9));
 
         final CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(new LatLng(51.0486, -114.0708))
@@ -108,9 +108,8 @@ public class MainActivity extends AppCompatActivity {
                 Drawable mIconDrawable = ContextCompat.getDrawable(MainActivity.this, R.drawable.ic_place_black_24dp);
                 Icon icon = mIconFactory.fromDrawable(mIconDrawable);
 
-                mMapboxMap.addMarker(new MarkerOptions()
+                Marker marker = mMapboxMap.addMarker(new MarkerOptions()
                         .icon(icon)
-                        .title("Testing")
                         .position(new LatLng(51.0486, -114.0708))
                 );
 
@@ -118,6 +117,8 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onMarkerClick(@NonNull Marker marker) {
                         Toast.makeText(MainActivity.this, "Marker tapped: " + marker.getTitle(), Toast.LENGTH_LONG).show();
+                        mMapboxMap.deselectMarker(marker);
+                        mMapboxMap.deselectMarker(marker);
                         return true;
                     }
                 });
@@ -249,7 +250,6 @@ public class MainActivity extends AppCompatActivity {
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         mClient.connect();
-        mMapView.onStart();
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         Action viewAction = Action.newAction(
@@ -281,7 +281,6 @@ public class MainActivity extends AppCompatActivity {
                 Uri.parse("android-app://org.acme.mapboxtest/http/host/path")
         );
         AppIndex.AppIndexApi.end(mClient, viewAction);
-        mMapView.onStop();
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         mClient.disconnect();
